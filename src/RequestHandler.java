@@ -67,13 +67,16 @@ public class RequestHandler extends Thread{
 		
 		Zone z1 = this.peer.getZone();
 		if(z1.checkPoint(p1)) {
+			System.out.println("Point is in the zone.Spliting "+this.peer.getAddress().toString());
 		if(z1.isSquare())
 		{
+			System.out.println("Zone is a square");
 			double temp = (z1.getTopRight().getX()-z1.getBottomLeft().getX())/2;
 			Zone z2 = new Zone(new Point(temp,z1.getBottomLeft().getY()),new Point(temp,z1.getTopRight().getY()));
 			z1.setTopRight(new Point(temp,z1.getTopRight().getY()));
 			this.peer.getNeighbors().put(cmd.getIntiater().getAddress(), z2);
 			try {
+				System.out.println("sending back message");
 				this.out.writeObject(z2);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -83,6 +86,7 @@ public class RequestHandler extends Thread{
 		}
 		
 		else{
+			
 			double temp = (z1.getTopRight().getY() - z1.getBottomLeft().getY())/2;
 			Zone z2 = new Zone(new Point(z1.getBottomLeft().getX(),temp),new Point(z1.getTopRight().getX(),temp));
 			z1.setTopRight(new Point(z1.getTopRight().getX(),temp));
@@ -107,12 +111,14 @@ public class RequestHandler extends Thread{
 		}
 		else
 		{
+			System.out.println("Not in "+this.peer.getAddress().toString()+" Zone. Forwarding connection");
 			InetAddress nearestNeighbor = this.peer.findNextClosestNeighbor(cmd.getDestination());
 			List<InetAddress> temp = cmd.getPath();
 			temp.add(nearestNeighbor);
 			cmd.setPath(temp);
 			
 			try {
+				System.out.println("Connection forwarded to "+nearestNeighbor.toString());
 				Socket client = new Socket(nearestNeighbor,Constants.PEERPORT);
 				ObjectOutputStream oo =  new ObjectOutputStream(client.getOutputStream());
 				System.out.println("writing object");

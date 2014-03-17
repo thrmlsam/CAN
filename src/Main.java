@@ -53,6 +53,7 @@ public class Main {
 					double randomValue2 = Constants.MINBOUNDARY +(Constants.MAXBOUNDARY-Constants.MAXBOUNDARY)* r.nextDouble();
 					Point destination = new Point(randomValue1, randomValue2);
 					Peer p1 = new Peer(destination,z1,InetAddress.getLocalHost(),bootStrap);
+					System.out.println("Opening Connection");
 					p1.openConnection();
 				} catch (UnknownHostException e) {
 					// TODO Auto-generated catch block
