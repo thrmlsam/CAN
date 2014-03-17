@@ -177,10 +177,12 @@ public class Peer implements Runnable, Serializable {
 
 	public void adjustNeighbors(boolean removeMessage) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Adjusting neighbors ");
 		for(InetAddress key :this.neighbors.keySet()){
+			System.out.println("checking "+key.toString());
 			if(isNeighbors(this.neighbors.get(key)))
 			{
+				System.out.println("is neighbor true");
 				Zone temp = this.neighbors.get(key);
 				Point destination = temp.getMidPoint();
 				List<InetAddress> path = new ArrayList<InetAddress>();
@@ -209,6 +211,7 @@ public class Peer implements Runnable, Serializable {
 			}
 			else
 			{
+				System.out.println("not a neighbor");
 				Zone temp = this.neighbors.get(key);
 				Point destination = temp.getMidPoint();
 				List<InetAddress> path = new ArrayList<InetAddress>();

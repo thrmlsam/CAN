@@ -4,6 +4,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.List;
+import java.util.Map;
 
 
 public class RequestHandler extends Thread{
@@ -115,7 +116,9 @@ public class RequestHandler extends Thread{
 		this.peer.setPoint(this.peer.getZone().getMidPoint());
 		this.peer.displayInformation();
 		try {
-			this.out.writeObject(this.peer.getNeighbors());
+			Map<InetAddress,Zone> nbh = this.peer.getNeighbors();
+			nbh.put(this.peer.getAddress(), this.peer.getZone());
+			this.out.writeObject(nbh);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
