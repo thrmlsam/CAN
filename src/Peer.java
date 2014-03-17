@@ -100,6 +100,10 @@ public class Peer implements Runnable, Serializable {
 	public void displayInformation() {
 		System.out.println("Bottom Left " + this.zone.getBottomLeft());
 		System.out.println("Top Right " + this.zone.getTopRight());
+		System.out.println("Neighbors: ");
+		for(InetAddress key : this.neighbors.keySet()){
+			System.out.println(key.toString());
+		}
 	}
 
 	public InetAddress getAddress() {
