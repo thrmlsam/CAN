@@ -175,7 +175,7 @@ public class Peer implements Runnable, Serializable {
 		this.neighbors = neighbors;
 	}
 
-	public void adjustNeighbors(boolean removeMessage) {
+	public synchronized void adjustNeighbors(boolean removeMessage) {
 		// TODO Auto-generated method stub
 		System.out.println("Adjusting neighbors ");
 		for(InetAddress key :this.neighbors.keySet()){
