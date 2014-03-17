@@ -10,6 +10,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Peer implements Runnable, Serializable {
 
@@ -41,14 +42,14 @@ public class Peer implements Runnable, Serializable {
 		this.zone = zone;
 		this.setAddress(address);
 		Peer.bootStrap = bootstrap;
-		this.neighbors = new Hashtable<InetAddress,Zone>();
+		this.neighbors = new ConcurrentHashMap<InetAddress,Zone>();
 	}
 
 	public Peer(Point point,InetAddress address, InetAddress bootstrap) {
 		this.point = point;
 		this.setAddress(address);
 		Peer.bootStrap = bootstrap;
-		this.neighbors = new Hashtable<InetAddress,Zone>();
+		this.neighbors = new ConcurrentHashMap<InetAddress,Zone>();
 	}
 
 	
@@ -175,7 +176,7 @@ public class Peer implements Runnable, Serializable {
 		this.neighbors = neighbors;
 	}
 
-	public synchronized void adjustNeighbors(boolean removeMessage) {
+	public void adjustNeighbors(boolean removeMessage) {
 		// TODO Auto-generated method stub
 		System.out.println("Adjusting neighbors ");
 		for(InetAddress key :this.neighbors.keySet()){
