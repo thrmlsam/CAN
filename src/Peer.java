@@ -35,7 +35,6 @@ public class Peer implements Runnable, Serializable {
 	private Map<InetAddress,Zone> neighbors;
 
 	private ServerSocket server;
-	private Set<RequestHandler> handlers = new HashSet<RequestHandler>();
 
 	public Peer(Point point,Zone zone, InetAddress address, InetAddress bootstrap) {
 		this.point = point;
@@ -89,7 +88,6 @@ public class Peer implements Runnable, Serializable {
 				Socket sock = this.server.accept();
 
 				RequestHandler handler = new RequestHandler(sock, this);
-				this.handlers.add(handler);
 				handler.start();
 			}
 		} catch (IOException e) {
@@ -191,9 +189,11 @@ public class Peer implements Runnable, Serializable {
 				path.add(key);
 				Message removeMsg = new Message(this,path,destination,Message.REMOVENEIGHBOR);
 				try {
+					if(!removeMessage){
 					Socket s1 = new Socket(key,Constants.PEERPORT);
 					ObjectOutputStream oo =  new ObjectOutputStream(s1.getOutputStream());
 					oo.writeObject(removeMsg);
+					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
