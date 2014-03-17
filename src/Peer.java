@@ -34,7 +34,7 @@ public class Peer implements Runnable, Serializable {
 	private static InetAddress bootStrap;
 	private Map<InetAddress,Zone> neighbors;
 
-	private ServerSocket server;
+	private transient ServerSocket server;
 
 	public Peer(Point point,Zone zone, InetAddress address, InetAddress bootstrap) {
 		this.point = point;
