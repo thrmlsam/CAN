@@ -9,6 +9,9 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -66,7 +69,10 @@ public class Main {
 					double randomValue2 = Constants.MINBOUNDARY +(Constants.MAXBOUNDARY-Constants.MAXBOUNDARY)* r.nextDouble();
 					Point destination = new Point(randomValue1, randomValue2);
 					Peer temp = new Peer(destination,InetAddress.getLocalHost(),bootStrap);
-					Message joinMessage = new Message(temp, temp, null, destination, 1);
+					List<InetAddress> path = new ArrayList<InetAddress>();
+					path.add(temp.getAddress());
+					path.add(contactPeer);
+					Message joinMessage = new Message(temp, path, destination, 1);
 					Socket s1 = new Socket(contactPeer,Constants.PEERPORT);
 					ObjectOutputStream oo =  new ObjectOutputStream(s1.getOutputStream());
 					System.out.println("writing object");
@@ -76,7 +82,11 @@ public class Main {
 						Zone z2 = (Zone)oi.readObject();
 						temp.setZone(z2);
 						temp.setPoint(z2.getMidPoint());
+						Map<InetAddress,Zone> neighborList = (Map)oi.readObject();
+						temp.setNeighbors(neighborList);
+						temp.adjustNeighbors(true);
 						temp.displayInformation();
+						
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

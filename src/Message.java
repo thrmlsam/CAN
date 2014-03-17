@@ -1,4 +1,7 @@
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -10,18 +13,7 @@ public class Message implements Serializable {
 	public void setIntiater(Peer intiater) {
 		this.intiater = intiater;
 	}
-	public Peer getSender() {
-		return sender;
-	}
-	public void setSender(Peer sender) {
-		this.sender = sender;
-	}
-	public Peer getReceiver() {
-		return receiver;
-	}
-	public void setReceiver(Peer receiver) {
-		this.receiver = receiver;
-	}
+	
 	public Point getDestination() {
 		return destination;
 	}
@@ -43,18 +35,23 @@ public class Message implements Serializable {
 		this.command = command;
 	}
 	public static int JOIN = 1;
+	public static int REMOVENEIGHBOR = 2;
 	
 	private Peer intiater;
-	private Peer sender;
-	private Peer receiver;
+	private List<InetAddress> path = new ArrayList<InetAddress>(); 
+	public List<InetAddress> getPath() {
+		return path;
+	}
+	public void setPath(List<InetAddress> path) {
+		this.path = path;
+	}
 	private Point destination;
 	private int command;
-	public Message(Peer intiater, Peer sender, Peer receiver,
+	public Message(Peer intiater, List<InetAddress> path1,
 			Point destination, int command) {
 		super();
 		this.intiater = intiater;
-		this.sender = sender;
-		this.receiver = receiver;
+		this.path.addAll(path1);
 		this.destination = destination;
 		this.command = command;
 	}
