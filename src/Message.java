@@ -36,6 +36,8 @@ public class Message implements Serializable {
 	}
 	public static int JOIN = 1;
 	public static int REMOVENEIGHBOR = 2;
+	public static int ADJUSTZONE = 3;
+	public static int ADDNEIGHBOR = 4;
 	
 	private Peer intiater;
 	private List<InetAddress> path = new ArrayList<InetAddress>(); 

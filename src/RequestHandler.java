@@ -42,6 +42,12 @@ public class RequestHandler extends Thread{
 			case 2:
 				removeNeighbor(cmd);
 				break;
+			case 3:
+				adjusjZone(cmd);
+				break;
+			case 4:
+				this.peer.addNeighbour(cmd.getIntiater().getAddress(), cmd.getIntiater().getZone());
+				break;
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -52,6 +58,13 @@ public class RequestHandler extends Thread{
 		}
 		
 		
+	}
+
+	private void adjusjZone(Message cmd) {
+		// TODO Auto-generated method stub
+		InetAddress key = cmd.getIntiater().getAddress();
+		this.peer.remove(key);
+		this.peer.addNeighbour(key, cmd.getIntiater().getZone());
 	}
 
 	private void removeNeighbor(Message cmd) {

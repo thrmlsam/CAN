@@ -156,22 +156,17 @@ public class Peer implements Runnable, Serializable {
 		        elif ngh_tl[0] == my_tr[0] and (my_tr[1] <= ngh_tl[1] < my_br[1] or my_tr[1] < ngh_bl[1] <= my_br[1]): return True, 2 # collision from right
 		        */
 		
-		if(z2BottomLeft.getY() == myTopLeft.getY()){
-			if((myTopLeft.getX() <= z2.getBottomLeft().getX() && z2.getBottomLeft().getX() < myTopRight.getX())||(myTopLeft.getX() < z2BottomRight.getX() && z2BottomRight.getX()<= myTopRight.getX()))
+		if((z2BottomLeft.getY() == myTopLeft.getY()) && ((myTopLeft.getX() <= z2.getBottomLeft().getX() && z2.getBottomLeft().getX() < myTopRight.getX())||(myTopLeft.getX() < z2BottomRight.getX() && z2BottomRight.getX()<= myTopRight.getX())))
 				return true;
-		}
-		else if(z2BottomLeft.getY() == myBottomLeft.getY() ){
-			if((myBottomLeft.getX() <= z2TopLeft.getX() && z2TopLeft.getX() < myBottomRight.getX())||(myBottomLeft.getX() < z2TopRight.getX() && z2TopRight.getX() <= myBottomRight.getX()))
+		
+		else if((z2BottomLeft.getY() == myBottomLeft.getY()) &&((myBottomLeft.getX() <= z2TopLeft.getX() && z2TopLeft.getX() < myBottomRight.getX())||(myBottomLeft.getX() < z2TopRight.getX() && z2TopRight.getX() <= myBottomRight.getX())))
 				return true;
-		}
-		else if(z2TopRight.getX() == myTopLeft.getX()){
-			if((myTopLeft.getY() <= z2TopRight.getY() && z2TopRight.getY() < myBottomLeft.getY())||(myTopLeft.getY() < z2BottomRight.getY() && z2BottomRight.getY() <=myBottomLeft.getY()))
+		
+		else if((z2TopRight.getX() == myTopLeft.getX()) && ((myTopLeft.getY() <= z2TopRight.getY() && z2TopRight.getY() < myBottomLeft.getY())||(myTopLeft.getY() < z2BottomRight.getY() && z2BottomRight.getY() <=myBottomLeft.getY())))
 				return true;
-		}
-		else if(z2TopLeft.getX() == myTopRight.getX()){
-			if((myTopRight.getY() <= z2TopLeft.getY() && z2TopLeft.getY() < myBottomRight.getY())||(myTopRight.getY() < z2BottomLeft.getY() && z2BottomLeft.getY() <= myBottomRight.getY()))
+		else if((z2TopLeft.getX() == myTopRight.getX()) && ((myTopRight.getY() <= z2TopLeft.getY() && z2TopLeft.getY() < myBottomRight.getY())||(myTopRight.getY() < z2BottomLeft.getY() && z2BottomLeft.getY() <= myBottomRight.getY())))
 				return true;
-		}
+		
 		        
 		return false;
 	}
@@ -184,7 +179,35 @@ public class Peer implements Runnable, Serializable {
 		// TODO Auto-generated method stub
 		
 		for(InetAddress key :this.neighbors.keySet()){
-			if(!isNeighbors(this.neighbors.get(key)))
+			if(isNeighbors(this.neighbors.get(key)))
+			{
+				Zone temp = this.neighbors.get(key);
+				Point destination = temp.getMidPoint();
+				List<InetAddress> path = new ArrayList<InetAddress>();
+				path.add(this.getAddress());
+				path.add(key);
+				Message msg = new Message(this,path,destination,Message.ADJUSTZONE);
+				
+				
+				try {
+					if(!removeMessage){
+					Socket s1 = new Socket(key,Constants.PEERPORT);
+					ObjectOutputStream oo =  new ObjectOutputStream(s1.getOutputStream());
+					oo.writeObject(msg);
+					}
+					else{
+						msg.setCommand(Message.ADDNEIGHBOR);
+						Socket s1 = new Socket(key,Constants.PEERPORT);
+						ObjectOutputStream oo =  new ObjectOutputStream(s1.getOutputStream());
+						oo.writeObject(msg);
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			else
 			{
 				Zone temp = this.neighbors.get(key);
 				Point destination = temp.getMidPoint();
@@ -204,7 +227,6 @@ public class Peer implements Runnable, Serializable {
 				}
 				
 				this.neighbors.remove(key);
-				
 			}
 		}
 	}
@@ -214,6 +236,11 @@ public class Peer implements Runnable, Serializable {
 		System.out.println("removing "+key.toString());
 		this.neighbors.remove(key);
 		
+	}
+
+	public void addNeighbour(InetAddress key, Zone zone2) {
+		// TODO Auto-generated method stub
+		this.neighbors.put(key, zone2);
 	}
 	
 	
