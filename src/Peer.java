@@ -166,7 +166,7 @@ public class Peer implements Runnable, Serializable {
 				return true;
 		*/
 		
-		if(myBottomRight == z2BottomLeft){
+		if(myBottomRight.equals(z2BottomLeft)){
 			if(this.zone.getHeight() >= z2.getHeight()){
 				if(myTopRight.getY() >= z2TopLeft.getY())
 					return true;
@@ -177,7 +177,7 @@ public class Peer implements Runnable, Serializable {
 			}
 		}
 		
-		if(myTopRight == z2TopLeft){
+		if(myTopRight.equals(z2TopLeft)){
 			if(this.zone.getHeight() >= z2.getHeight()){
 				if(myBottomRight.getY() <= z2BottomLeft.getY())
 					return true;
@@ -188,7 +188,7 @@ public class Peer implements Runnable, Serializable {
 			}
 		}
 		
-		if(myTopRight == z2BottomRight){
+		if(myTopRight.equals(z2BottomRight)){
 			if(this.zone.getWidth() >= z2.getWidth()){
 				if(myTopLeft.getX() <= z2BottomLeft.getX())
 					return true;
@@ -199,7 +199,7 @@ public class Peer implements Runnable, Serializable {
 			}
 		}
 		
-		if(myTopLeft == z2BottomLeft){
+		if(myTopLeft.equals(z2BottomLeft)){
 			if(this.getZone().getWidth() >= z2.getWidth()){
 				if(myTopRight.getX() >= z2BottomRight.getX())
 					return true;
@@ -210,7 +210,7 @@ public class Peer implements Runnable, Serializable {
 			}
 		}
 		
-		if(myTopLeft == z2TopRight){
+		if(myTopLeft.equals(z2TopRight)){
 			if(this.zone.getHeight() >= z2.getHeight()){
 				if(myBottomLeft.getY() <= z2BottomRight.getY())
 					return true;
@@ -221,7 +221,7 @@ public class Peer implements Runnable, Serializable {
 			}
 		}
 		
-		if(myBottomLeft == z2BottomRight){
+		if(myBottomLeft.equals(z2BottomRight)){
 			if(this.zone.getHeight() >= z2.getHeight()){
 				if(myTopLeft.getY() >= z2TopRight.getY())
 					return true;
@@ -232,7 +232,7 @@ public class Peer implements Runnable, Serializable {
 			}
 		}
 		
-		if(myBottomLeft == z2TopLeft){
+		if(myBottomLeft.equals(z2TopLeft)){
 			if(this.zone.getWidth() >= z2.getWidth()){
 				if(myBottomRight.getX() >= z2TopRight.getX())
 					return true;
@@ -243,7 +243,7 @@ public class Peer implements Runnable, Serializable {
 			}
 		}
 		
-		if(myBottomRight == z2TopRight){
+		if(myBottomRight.equals(z2TopRight)){
 			if(this.zone.getWidth() >= z2.getWidth()){
 				if(myBottomLeft.getX() <= z2TopLeft.getX())
 					return true;
