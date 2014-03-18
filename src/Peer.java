@@ -146,17 +146,14 @@ public class Peer implements Runnable, Serializable {
 		Point myTopLeft = new Point(this.getZone().getTopRight().getX(),this.getZone().getBottomLeft().getY());
 		Point myBottomRight = new Point(this.getZone().getBottomLeft().getX(),this.getZone().getTopRight().getY());
 		
+		
 		Point z2TopLeft = new Point(z2.getTopRight().getX(),z2.getBottomLeft().getY());
 		Point z2BottomRight = new Point(z2.getBottomLeft().getX(),z2.getTopRight().getY());
 		Point z2TopRight = new Point(z2.getTopRight().getX(),z2.getTopRight().getY());
 		Point z2BottomLeft = new Point(z2.getBottomLeft().getX(),z2.getBottomLeft().getY());
 		
-		/*if ngh_bl[1] == my_tl[1] and (my_tl[0] <= ngh_bl[0] < my_tr[0] or my_tl[0] < ngh_br[0] <= my_tr[0]): return True, 1   # collision from top
-		        elif ngh_tl[1] == my_bl[1] and (my_bl[0] <= ngh_tl[0] < my_br[0] or my_bl[0] < ngh_tr[0] <= my_br[0]): return True, 3 # collision from bottom
-		        elif ngh_tr[0] == my_tl[0] and (my_tl[1] <= ngh_tr[1] < my_bl[1] or my_tl[1] < ngh_br[1] <= my_bl[1]): return True, 4 # collision from left
-		        elif ngh_tl[0] == my_tr[0] and (my_tr[1] <= ngh_tl[1] < my_br[1] or my_tr[1] < ngh_bl[1] <= my_br[1]): return True, 2 # collision from right
-		        */
 		
+		/*
 		if((z2BottomLeft.getY() == myTopLeft.getY()) && ((myTopLeft.getX() <= z2.getBottomLeft().getX() && z2.getBottomLeft().getX() < myTopRight.getX())||(myTopLeft.getX() < z2BottomRight.getX() && z2BottomRight.getX()<= myTopRight.getX())))
 				return true;
 		
@@ -167,8 +164,96 @@ public class Peer implements Runnable, Serializable {
 				return true;
 		else if((z2TopLeft.getX() == myTopRight.getX()) && ((myTopRight.getY() <= z2TopLeft.getY() && z2TopLeft.getY() < myBottomRight.getY())||(myTopRight.getY() < z2BottomLeft.getY() && z2BottomLeft.getY() <= myBottomRight.getY())))
 				return true;
+		*/
 		
-		        
+		if(myBottomRight == z2BottomLeft){
+			if(this.zone.getHeight() >= z2.getHeight()){
+				if(myTopRight.getY() >= z2TopLeft.getY())
+					return true;
+			}
+			else if(this.zone.getHeight() < z2.getHeight()){
+				if(myTopRight.getY() < z2TopLeft.getY())
+					return true;
+			}
+		}
+		
+		if(myTopRight == z2TopLeft){
+			if(this.zone.getHeight() >= z2.getHeight()){
+				if(myBottomRight.getY() <= z2BottomLeft.getY())
+					return true;
+			}
+			else if(this.zone.getHeight() < z2.getHeight()){
+				if(myBottomRight.getY() < z2BottomLeft.getY())
+					return true;
+			}
+		}
+		
+		if(myTopRight == z2BottomRight){
+			if(this.zone.getWidth() >= z2.getWidth()){
+				if(myTopLeft.getX() <= z2BottomLeft.getX())
+					return true;
+			}
+			else if(this.zone.getWidth() < z2.getWidth()){
+				if(myTopLeft.getX() > z2BottomLeft.getX())
+					return true;
+			}
+		}
+		
+		if(myTopLeft == z2BottomLeft){
+			if(this.getZone().getWidth() >= z2.getWidth()){
+				if(myTopRight.getX() >= z2BottomRight.getX())
+					return true;
+			}
+			else if(this.getZone().getWidth() < z2.getWidth()){
+				if(myTopRight.getX() < z2BottomRight.getX())
+					return true;
+			}
+		}
+		
+		if(myTopLeft == z2TopRight){
+			if(this.zone.getHeight() >= z2.getHeight()){
+				if(myBottomLeft.getY() <= z2BottomRight.getY())
+					return true;
+			}
+			else if(this.zone.getHeight() < z2.getHeight()){
+				if(myBottomLeft.getY() > z2BottomRight.getY())
+					return true;
+			}
+		}
+		
+		if(myBottomLeft == z2BottomRight){
+			if(this.zone.getHeight() >= z2.getHeight()){
+				if(myTopLeft.getY() >= z2TopRight.getY())
+					return true;
+			}
+			else if(this.zone.getHeight() < z2.getHeight()){
+				if(myTopLeft.getY() < z2TopRight.getY())
+					return true;
+			}
+		}
+		
+		if(myBottomLeft == z2TopLeft){
+			if(this.zone.getWidth() >= z2.getWidth()){
+				if(myBottomRight.getX() >= z2TopRight.getX())
+					return true;
+			}
+			else if(this.zone.getWidth() < z2.getWidth()){
+				if(myBottomRight.getX() < z2TopRight.getX())
+					return true;
+			}
+		}
+		
+		if(myBottomRight == z2TopRight){
+			if(this.zone.getWidth() >= z2.getWidth()){
+				if(myBottomLeft.getX() <= z2TopLeft.getX())
+					return true;
+			}
+			else if(this.zone.getWidth() < z2.getWidth()){
+				if(myBottomLeft.getX() > z2TopLeft.getX())
+					return true;
+			}
+		}
+		
 		return false;
 	}
 
