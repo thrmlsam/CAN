@@ -85,10 +85,10 @@ public class RequestHandler extends Thread{
 		if(z1.isSquare())
 		{
 			System.out.println("Zone is a square");
-			double temp = (z1.getTopRight().getX()-z1.getBottomLeft().getX())/2;
-			Zone z2 = new Zone(new Point(temp,z1.getBottomLeft().getY()),new Point(temp,z1.getTopRight().getY()));
-			z1.setTopRight(new Point(temp,z1.getTopRight().getY()));
-			this.peer.getNeighbors().put(cmd.getIntiater().getAddress(), z2);
+			double temp = (z1.getWidth())/2;
+			Zone z2 = new Zone(new Point(z1.getBottomLeft().getX()+temp,z1.getBottomLeft().getY()),new Point(z1.getTopRight().getX(),z1.getTopRight().getY()));
+			z1.setTopRight(new Point(z1.getBottomLeft().getX()+temp,z1.getTopRight().getY()));
+			this.peer.addNeighbour(cmd.getIntiater().getAddress(), z2);
 			try {
 				System.out.println("sending back message");
 				this.out.writeObject(z2);
@@ -101,10 +101,10 @@ public class RequestHandler extends Thread{
 		
 		else{
 			
-			double temp = (z1.getTopRight().getY() - z1.getBottomLeft().getY())/2;
-			Zone z2 = new Zone(new Point(z1.getBottomLeft().getX(),temp),new Point(z1.getTopRight().getX(),temp));
-			z1.setTopRight(new Point(z1.getTopRight().getX(),temp));
-			this.peer.getNeighbors().put(cmd.getIntiater().getAddress(), z2);
+			double temp = (z1.getHeight())/2;
+			Zone z2 = new Zone(new Point(z1.getBottomLeft().getX(),temp+z1.getBottomLeft().getY()),new Point(z1.getTopRight().getX(),z1.getTopRight().getY()));
+			z1.setTopRight(new Point(z1.getTopRight().getX(),temp+z1.getBottomLeft().getY()));
+			this.peer.addNeighbour(cmd.getIntiater().getAddress(), z2);
 			try {
 				this.out.writeObject(z2);
 			} catch (IOException e) {

@@ -30,11 +30,11 @@ public class Zone implements Serializable{
 	
 	public double getWidth(){
 		
-		return this.bottomLeft.getX() - this.topRight.getX();
+		return Math.abs(this.bottomLeft.getX() - this.topRight.getX());
 	}
 	
 	public double getHeight(){
-		return this.bottomLeft.getY() - this.topRight.getY();
+		return Math.abs(this.bottomLeft.getY() - this.topRight.getY());
 	}
 	
 	public boolean checkPoint(Point point){
