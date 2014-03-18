@@ -49,6 +49,9 @@ public class RequestHandler extends Thread{
 			case 4:
 				this.peer.addNeighbour(cmd.getIntiater().getAddress(), cmd.getIntiater().getZone());
 				break;
+			case 5:
+				insert(cmd);
+				break;
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -58,6 +61,55 @@ public class RequestHandler extends Thread{
 			e.printStackTrace();
 		}
 		
+		
+	}
+
+	private void insert(Message cmd) {
+		// TODO Auto-generated method stub
+Point p1 = cmd.getDestination();
+		
+		Zone z1 = this.peer.getZone();
+		if(z1.checkPoint(p1)) {
+			this.peer.addFile(cmd.getFile());
+			try {
+				this.out.writeObject(cmd);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else{
+			System.out.println("Not in "+this.peer.getAddress().toString()+" Zone. Forwarding connection");
+			InetAddress nearestNeighbor = this.peer.findNextClosestNeighbor(cmd.getDestination());
+			List<InetAddress> temp = cmd.getPath();
+			temp.add(nearestNeighbor);
+			cmd.setPath(temp);
+			try {
+				System.out.println("Connection forwarded to "+nearestNeighbor.toString());
+				Socket client = new Socket(nearestNeighbor,Constants.PEERPORT);
+				ObjectOutputStream oo =  new ObjectOutputStream(client.getOutputStream());
+				System.out.println("writing object");
+				oo.writeObject(cmd);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	}
+
+	private void search(Message cmd) {
+		// TODO Auto-generated method stub
+		Point p1 = cmd.getDestination();
+		
+		Zone z1 = this.peer.getZone();
+		if(z1.checkPoint(p1)) {
+			if(this.peer.checkFile(cmd.getFile()))
+			{
+				
+			}
+		}
 		
 	}
 

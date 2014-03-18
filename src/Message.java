@@ -38,8 +38,16 @@ public class Message implements Serializable {
 	public static int REMOVENEIGHBOR = 2;
 	public static int ADJUSTZONE = 3;
 	public static int ADDNEIGHBOR = 4;
+	public static int INSERT = 5;
 	
 	private Peer intiater;
+	private String file;
+	public String getFile() {
+		return file;
+	}
+	public void setFile(String file) {
+		this.file = file;
+	}
 	private List<InetAddress> path = new ArrayList<InetAddress>(); 
 	public List<InetAddress> getPath() {
 		return path;

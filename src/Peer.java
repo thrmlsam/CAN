@@ -34,6 +34,16 @@ public class Peer implements Runnable, Serializable {
 	private InetAddress address;
 	private static InetAddress bootStrap;
 	private Map<InetAddress,Zone> neighbors;
+	
+	private List<String> files = new ArrayList<String>();
+
+	public List<String> getFiles() {
+		return files;
+	}
+
+	public void setFiles(List<String> files) {
+		this.files = files;
+	}
 
 	private transient ServerSocket server;
 
@@ -330,6 +340,18 @@ public class Peer implements Runnable, Serializable {
 	public void addNeighbour(InetAddress key, Zone zone2) {
 		// TODO Auto-generated method stub
 		this.neighbors.put(key, zone2);
+	}
+
+	public boolean checkFile(String file) {
+		// TODO Auto-generated method stub
+		if(this.files.contains(file))
+			return true;
+		return false;
+	}
+
+	public void addFile(String file) {
+		// TODO Auto-generated method stub
+		this.files.add(file);
 	}
 	
 	
